@@ -64,8 +64,14 @@ class View:
 
         # Altri Pulsanti da implementare (es. "Mostra" e "Cerca")
         # TODO
-
+        #self.bottone_mostra_sezione_3
+        self.testo_tipo_strumento_view=ft.TextField('')
+        self.bottone_cerca_strumento = ft.Button(                                                                                  content='Cerca',
+                                            on_click=self.controller.bottone_interfaccia_cerca_sezione_4
+                                                )
+        self.riga_sezione_4=ft.Row(controls=[self.testo_tipo_strumento_view, self.bottone_cerca_strumento])
         # --- LAYOUT ---
+
         self.page.add(
             self.toggle_cambia_tema,
 
@@ -83,9 +89,25 @@ class View:
 
             # Sezione 3
             # TODO
+            ft.Row(
+                controls=[
+                    ft.Text('Strumenti', size= 20),
+                    ft.Button('Mostra')
+                ]
+            ),
+            ft.Row(
+                height=120,
+            ),
+            ft.Divider(),
 
             # Sezione 4
             # TODO
+            ft.Row(
+                spacing=200,
+                controls=[ft.Text('Cerca Strumento per Tipo', size=21)],
+                alignment = ft.MainAxisAlignment.CENTER
+            ),
+            self.riga_sezione_4
         )
 
     def cambia_tema(self, e):
