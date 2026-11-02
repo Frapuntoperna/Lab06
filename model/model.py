@@ -1,7 +1,6 @@
+from database.DB_connect import get_connection
 from model.strumento import Strumento
 from model.prestito import Prestito
-import mysql.connector
-from database.DB_connect import get_connection
 
 '''
     MODELLO:
@@ -37,6 +36,26 @@ class DepositoStrumenti:
             :return: una lista con tutti gli strumenti presenti oppure None
         """
         # TODO
+        lista_strumenti_2 = []
+        cnx=get_connection()
+        if cnx is not None:
+            cursor=cnx.cursor()
+            query='SELECT * FROM STRUMENTO'
+            cursor.execute(query)
+
+            for riga in cursor:
+                lista_parti_strumenti=[]
+                lista_parti_strumenti.append(riga[0])
+                lista_parti_strumenti.append(riga[1])
+                lista_parti_strumenti.append(riga[2])
+                lista_parti_strumenti.append(riga[3])
+                lista_parti_strumenti.append(riga[4])
+                lista_parti_strumenti.append(riga[5])
+                lista_strumenti_2.append(lista_parti_strumenti)
+
+        return lista_strumenti_2
+
+
 
     def cerca_strumenti_per_tipo(self, tipo) -> list[Strumento] | None:
         """
@@ -45,20 +64,10 @@ class DepositoStrumenti:
             :return: una lista con tutti gli strumenti del tipo indicato oppure None
         """
         # TODO
-        connettore_database= mysql.connector.connect(option_files="database/connector.cnf")
+        lista_strumenti_ricerca=[]
+        for lista in self.get_strumenti():
+            for i in lista:
+                if lista[1]==tipo:
+                    lista_strumenti_ricerca.append(lista)
 
-        query=("SELECT *"
-               " FROM STRUMENTO AS S"
-               " WHERE S.tipo = %s")
-
-        cursore = connettore_database.cursor()
-        cursore.execute(query, (tipo,))
-        output_strumenti=[]
-
-        for riga in cursore:
-            s = Strumento(codice=riga[0], tipo=riga[1], marca=riga[2], anno_acquisto=riga[3], valore=riga[4], disponibile=riga[5])
-            output_strumenti.append(s)
-
-        cursore.close()
-        connettore_database.close()
-        return output_strumenti
+        return lista_strumenti_ricerca
