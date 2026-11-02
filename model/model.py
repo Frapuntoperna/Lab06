@@ -1,7 +1,7 @@
-from database.DB_connect import get_connection
 from model.strumento import Strumento
 from model.prestito import Prestito
 import mysql.connector
+from database.DB_connect import get_connection
 
 '''
     MODELLO:
@@ -47,11 +47,9 @@ class DepositoStrumenti:
         # TODO
         connettore_database= mysql.connector.connect(option_files="database/connector.cnf")
 
-        query="""
-            SELECT *
-            FROM STRUMENTO AS S
-            WHERE S.tipo = %s
-            """
+        query=("SELECT *"
+               " FROM STRUMENTO AS S"
+               " WHERE S.tipo = %s")
 
         cursore = connettore_database.cursor()
         cursore.execute(query, (tipo,))
@@ -61,4 +59,6 @@ class DepositoStrumenti:
             s = Strumento(codice=riga[0], tipo=riga[1], marca=riga[2], anno_acquisto=riga[3], valore=riga[4], disponibile=riga[5])
             output_strumenti.append(s)
 
+        cursore.close()
+        connettore_database.close()
         return output_strumenti
