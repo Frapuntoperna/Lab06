@@ -1,4 +1,5 @@
 import flet as ft
+from flet import TextField, MainAxisAlignment
 from UI.alert import AlertManager
 
 '''
@@ -26,6 +27,7 @@ class View:
         self.txt_responsabile = None
 
         # Non obbligatorio mettere già qui tutti gli elementi UI
+        self.page.scroll='auto'
 
     def show_alert(self, messaggio):
         self.alert.show_alert(messaggio)
@@ -64,14 +66,32 @@ class View:
 
         # Altri Pulsanti da implementare (es. "Mostra" e "Cerca")
         # TODO
-        #self.bottone_mostra_sezione_3
-        self.testo_tipo_strumento_view=ft.TextField('')
-        self.bottone_cerca_strumento = ft.Button(                                                                                  content='Cerca',
-                                            on_click=self.controller.bottone_interfaccia_cerca_sezione_4
-                                                )
-        self.riga_sezione_4=ft.Row(controls=[self.testo_tipo_strumento_view, self.bottone_cerca_strumento])
-        # --- LAYOUT ---
+        self.testo_Strumenti_sezione_3= ft.Text('Strumenti', size=20)
+        self.bottone_mostra_sezione_3= ft.Button(content='Mostra', on_click=self.controller.funzione_tasto_mostra_sezione_3) #aggiungere on_click funzione
+        self.riga_sezione_3=ft.Row(controls=[self.testo_Strumenti_sezione_3, self.bottone_mostra_sezione_3])
 
+
+
+
+
+        self.seconda_riga_sezione_3=ft.Row(controls=[self.lista_strumenti])
+
+
+
+
+
+
+
+        self.testo_cerca_strumento_per_tipo_sezione_4=ft.Text('Cerca Strumenti per Tipo', size=20)
+        self.prima_riga_sezione_4=ft.Row(spacing=200, controls=[self.testo_cerca_strumento_per_tipo_sezione_4], alignment=ft.MainAxisAlignment.CENTER)
+
+        self.casella_testo_tipo_sezione_4=ft.TextField('Tipo')
+        self.bottone_cerca_sezione_4=ft.Button(content='Cerca', on_click=self.controller.funzione_tasto_cerca_sezione_4) #aggiungere funzione on_click
+        self.seconda_riga_sezione_4=ft.Row(controls=[self.casella_testo_tipo_sezione_4, self.bottone_cerca_sezione_4])
+
+        self.terza_riga_sezione_4 = ft.Row(controls=[self.lista_strumenti_ricerca])
+
+        # --- LAYOUT ---
         self.page.add(
             self.toggle_cambia_tema,
 
@@ -89,28 +109,19 @@ class View:
 
             # Sezione 3
             # TODO
-            ft.Row(
-                controls=[
-                    ft.Text('Strumenti', size= 20),
-                    ft.Button('Mostra')
-                ]
-            ),
-            ft.Row(
-                height=120,
-            ),
+            self.riga_sezione_3,
+            self.seconda_riga_sezione_3,
+            ft.Row(height=60),
             ft.Divider(),
-
             # Sezione 4
             # TODO
-            ft.Row(
-                spacing=200,
-                controls=[ft.Text('Cerca Strumento per Tipo', size=21)],
-                alignment = ft.MainAxisAlignment.CENTER
-            ),
-            self.riga_sezione_4
+            self.prima_riga_sezione_4,
+            self.seconda_riga_sezione_4,
+            self.terza_riga_sezione_4
         )
 
     def cambia_tema(self, e):
         self.page.theme_mode = ft.ThemeMode.DARK if self.toggle_cambia_tema.value else ft.ThemeMode.LIGHT
         self.toggle_cambia_tema.label = "Tema scuro" if self.toggle_cambia_tema.value else "Tema chiaro"
         self.page.update()
+
