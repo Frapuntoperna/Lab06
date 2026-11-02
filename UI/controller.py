@@ -29,14 +29,20 @@ class Controller:
 
     # Altre Funzioni Event Handler
     # TODO
-    def bottone_interfaccia_cerca_sezione_4(self, e):
-        tipo = self._view.testo_tipo_strumento_view.value
-        strumenti = self._model.cerca_strumenti_per_tipo(tipo)
-        self._view.lista_strumenti_ricerca.controls.clear()
-        if not strumenti:
-            self._view.lista_strumenti_ricerca.controls.append(
-                ft.Text("Nessuno strumento trovato.")
-            )
+
+    def funzione_tasto_mostra_sezione_3(self, e):
+
+        self._view.lista_strumenti.controls.append(ft.Text(f'{self._model.get_strumenti()}'))
+
+        return self._view.lista_strumenti
+
+    def funzione_tasto_cerca_sezione_4(self, e):
+        self._view.lista_strumenti_ricerca.controls.append(ft.Text(f'{self._model.cerca_strumenti_per_tipo()}'))
+        self._model.tipo=self._view.casella_testo_tipo_sezione_4.value
+
+        return self._view.lista_strumenti_ricerca
+
+
         else:
             for s in strumenti:
                 self._view.lista_strumenti_ricerca.controls.append(
